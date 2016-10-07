@@ -47,7 +47,7 @@
             this.juniorGet.TabIndex = 0;
             this.juniorGet.Text = "Get Junior Test";
             this.juniorGet.UseVisualStyleBackColor = true;
-            this.juniorGet.Click += new System.EventHandler(this.button1_Click);
+            this.juniorGet.Click += new System.EventHandler(this.juniorGet_Click);
             // 
             // seniorGet
             // 
@@ -57,6 +57,7 @@
             this.seniorGet.TabIndex = 1;
             this.seniorGet.Text = "Get Senior Test";
             this.seniorGet.UseVisualStyleBackColor = true;
+            this.seniorGet.Click += new System.EventHandler(this.seniorGet_Click);
             // 
             // schoolsGet
             // 
@@ -66,6 +67,7 @@
             this.schoolsGet.TabIndex = 2;
             this.schoolsGet.Text = "Get Schools List";
             this.schoolsGet.UseVisualStyleBackColor = true;
+            this.schoolsGet.Click += new System.EventHandler(this.schoolsGet_Click);
             // 
             // headerGet
             // 
@@ -75,20 +77,24 @@
             this.headerGet.TabIndex = 3;
             this.headerGet.Text = "Get Script Header";
             this.headerGet.UseVisualStyleBackColor = true;
+            this.headerGet.Click += new System.EventHandler(this.headerGet_Click);
             // 
             // go
             // 
+            this.go.Enabled = false;
             this.go.Location = new System.Drawing.Point(360, 131);
             this.go.Name = "go";
             this.go.Size = new System.Drawing.Size(121, 20);
             this.go.TabIndex = 4;
             this.go.Text = "BFG";
             this.go.UseVisualStyleBackColor = true;
+            this.go.Click += new System.EventHandler(this.go_Click);
             // 
             // juniorTest
             // 
             this.juniorTest.Location = new System.Drawing.Point(12, 15);
             this.juniorTest.Name = "juniorTest";
+            this.juniorTest.ReadOnly = true;
             this.juniorTest.Size = new System.Drawing.Size(342, 20);
             this.juniorTest.TabIndex = 5;
             this.juniorTest.Text = "Select Junior Test to Read Scores";
@@ -97,22 +103,25 @@
             // 
             this.seniorTest.Location = new System.Drawing.Point(12, 45);
             this.seniorTest.Name = "seniorTest";
+            this.seniorTest.ReadOnly = true;
             this.seniorTest.Size = new System.Drawing.Size(342, 20);
             this.seniorTest.TabIndex = 6;
             this.seniorTest.Text = "Select Senior Test to Read Scores";
             // 
             // schoolList
             // 
-            this.schoolList.Location = new System.Drawing.Point(12, 71);
+            this.schoolList.Location = new System.Drawing.Point(12, 73);
             this.schoolList.Name = "schoolList";
+            this.schoolList.ReadOnly = true;
             this.schoolList.Size = new System.Drawing.Size(342, 20);
             this.schoolList.TabIndex = 7;
             this.schoolList.Text = "Select List of Schools";
             // 
             // scriptHeader
             // 
-            this.scriptHeader.Location = new System.Drawing.Point(12, 103);
+            this.scriptHeader.Location = new System.Drawing.Point(12, 102);
             this.scriptHeader.Name = "scriptHeader";
+            this.scriptHeader.ReadOnly = true;
             this.scriptHeader.Size = new System.Drawing.Size(342, 20);
             this.scriptHeader.TabIndex = 8;
             this.scriptHeader.Text = "Select Script Header File";

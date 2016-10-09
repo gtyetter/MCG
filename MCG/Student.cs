@@ -8,7 +8,6 @@ namespace MCG
 {
     class Student
     {
-private
         //classy is Junior or Senior
         //Name is self explanatory
         //level is AA or A
@@ -21,14 +20,13 @@ private
         string FirstName;
         string MiddleInitial;
         string level;
-        int schoolCode;
+        string schoolCode;
         string school;
         string Answers;
         int score;
 
-public
         //Constructor
-        Student(string classLevel, string LN, string FN, string MI, int code1, int schCode, string answers)
+        public Student(string classLevel, string LN, string FN, string MI, string code1, string schCode, string answers)
         {
             classy = classLevel;
             LastName = LN;
@@ -36,7 +34,7 @@ public
             MiddleInitial = MI;
             schoolCode = schCode;
             Answers = answers;
-            if (code1 == 41) { level = "AA"; }
+            if (code1 == "41") { level = "AA"; }
             else { level = " A"; }
         }
 
@@ -47,21 +45,21 @@ public
         }
 
         //Passes in the respective keys and finds the grade for that student
-        void gradeIt(string answerKey, string tieBreaker)
+        public void gradeIt(string answerKey, string tieBreaker)
         {
             
         }
 
         #region MinorDetails
         //Changes the school name string value
-        void updateSchoolName(string theName)
+        public void updateSchoolName(string theName)
         {
             school = theName;
         }
 
         #region ReturnThings
         //Returns the name.
-        string returnName()
+        public string returnName()
         {
             string it;
             it = LastName + " ," + FirstName + " " + MiddleInitial;
@@ -69,37 +67,37 @@ public
         }
 
         //Returns score
-        int returnScore()
+        public int returnScore()
         {
             return score;
         }
 
         //Returns Class
-        string returnClass()
+        public string returnClass()
         {
             return classy;
         }
 
         //Returns AA or A
-        string returnLevel()
+        public string returnLevel()
         {
             return level;
         }
 
         //Returns school code
-        int returnSchoolCode()
+        public string returnSchoolCode()
         {
             return schoolCode;
         }
 
         //Returns school name
-        string returnSchool()
+        public string returnSchool()
         {
             return school;
         }
 
         //Returns the students answers
-        string returnAnswers()
+        public string returnAnswers()
         {
             return Answers;
         }

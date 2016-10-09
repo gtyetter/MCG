@@ -46,8 +46,8 @@ namespace MCG
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            //this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            //this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.SuspendLayout();
             // 
             // juniorGet
@@ -274,6 +274,7 @@ namespace MCG
             // 
             // shapeContainer1
             // 
+            /*
             this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
             this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.shapeContainer1.Name = "shapeContainer1";
@@ -282,14 +283,17 @@ namespace MCG
             this.shapeContainer1.Size = new System.Drawing.Size(495, 196);
             this.shapeContainer1.TabIndex = 15;
             this.shapeContainer1.TabStop = false;
+            */
             // 
             // lineShape1
             // 
+            /*
             this.lineShape1.Name = "lineShape1";
             this.lineShape1.X1 = 15;
             this.lineShape1.X2 = 476;
             this.lineShape1.Y1 = 135;
             this.lineShape1.Y2 = 135;
+            */
             // 
             // Form1
             // 
@@ -311,7 +315,7 @@ namespace MCG
             this.Controls.Add(this.schoolsGet);
             this.Controls.Add(this.seniorGet);
             this.Controls.Add(this.juniorGet);
-            this.Controls.Add(this.shapeContainer1);
+            //this.Controls.Add(this.shapeContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -339,8 +343,8 @@ namespace MCG
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+        //private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+        //private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
     }
 }
 

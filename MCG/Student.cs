@@ -15,6 +15,10 @@ namespace MCG
         //school is the string representation of their school
         //Answers are the students answers
         //score is their score with tiebreakers
+        string rawLine;
+        List<string> splitList;
+        bool err = false;
+
         string classy;
         string LastName;
         string FirstName;
@@ -26,8 +30,22 @@ namespace MCG
         int score;
 
         //Constructor
-        public Student(string classLevel, string LN, string FN, string MI, string code1, string schCode, string answers)
+        public Student(string classLevel, string line)
         {
+            rawLine = line;
+            classy = classLevel;
+            validate();
+        }
+
+        //Destructor
+        ~Student()
+        {
+
+        }
+
+        public void validate()
+        {
+            /*
             classy = classLevel;
             LastName = LN;
             FirstName = FN;
@@ -36,12 +54,60 @@ namespace MCG
             Answers = answers;
             if (code1 == "41") { level = "AA"; }
             else { level = " A"; }
+            */
+            splitList = killWhiteSpace(rawLine);
+            if(splitList.Count()==5)
+            {
+                LastName = splitList[0];
+                FirstName = splitList[1];
+                MiddleInitial = " ";
+                if (splitList[2] == "41") { level = "AA"; }
+                else if (splitList[2] == "49") { level = " A"; }
+                else 
+                {
+                    level = "UK";
+                    err = true;
+                }
+                schoolCode = splitList[3];
+                Answers = splitList[4];
+                superEval();
+            }
+            else if(splitList.Count()==6)
+            {
+                LastName = splitList[0];
+                FirstName = splitList[1];
+                MiddleInitial = splitList[2];
+                if (splitList[3] == "41") { level = "AA"; }
+                else if (splitList[3] == "49") { level = " A"; }
+                else
+                {
+                    level = "UK";
+                    err = true;
+                }
+                schoolCode = splitList[4];
+                Answers = splitList[5];
+                superEval();
+            }
+            else
+            {
+                err = true;
+            }
         }
 
-        //Destructor
-        ~Student()
+        private void superEval()
         {
-
+            if (LastName == "Student") { err = true; }
+            if (FirstName == "Unknown") { err = true; }
+            if (Answers.Count() != 40) { err = true; }
+            if (schoolCode == "??????") { err = true; }
+            for (int i = 0; i < Answers.Count();i++ )
+            {
+                if (Answers[i] != '1' || Answers[i] != '2' || Answers[i] != '3' || Answers[i] != '4' || Answers[i] != '5' || Answers[i] != '*')
+                {
+                    err = true;
+                    break;
+                }
+            }
         }
 
         //Passes in the respective keys and finds the grade for that student
@@ -58,6 +124,12 @@ namespace MCG
         }
 
         #region ReturnThings
+        //Returns if there is an error
+        public bool isErr()
+        {
+            return err;
+        }
+
         //Returns the name.
         public string returnName()
         {
@@ -101,7 +173,41 @@ namespace MCG
         {
             return Answers;
         }
+        
+        public string returnDebugString()
+        {
+            string it = "";
+            if (isErr()) { it = it + "ERR "; }
+            else { it = it + "OK  "; }
+
+            it = it + returnName() + "\t\t" + returnClass() + " " + returnLevel() + " " + returnSchoolCode() + " " + returnAnswers();
+
+            return it;
+        }
         #endregion ReturnThings
         #endregion MinorDetails
+
+        private List<string> killWhiteSpace(string it)
+        {
+            List<string> that = new List<string>();
+            string blanko = "";
+            for (int i = 0; i < it.Count(); i++)
+            {
+                if (it[i] != ' ' && it[i] != '\t')
+                {
+                    blanko = blanko + it[i];
+                }
+                else
+                {
+                    if (blanko.Count() != 0)
+                    {
+                        that.Add(blanko);
+                        blanko = "";
+                    }
+                }
+            }
+            that.Add(blanko);
+            return that;
+        }
     }
 }

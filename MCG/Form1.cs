@@ -30,13 +30,18 @@ namespace MCG
         string seniorKey;
         string seniorTie;
 
+        bool jKEr = false;
+        bool jTEr = false;
+        bool sKEr = false;
+        bool sTEr = false;
+
         #endregion VariableDefanitions
 
         public Form1()
         {
             InitializeComponent();
         }
-
+        #region ClickActions
         private void juniorGet_Click(object sender, EventArgs e)
         {
             OpenFileDialog juniorTestOpen = new OpenFileDialog();
@@ -140,9 +145,32 @@ namespace MCG
             }
             else
             {
-                MessageBox.Show("Got False in Verify");
+                int counter = 0;
+                string junErrList="";
+                for(int i=0;i<Juniors.Count();i++)
+                {
+                    if (Juniors[i].isErr())
+                    {
+                        junErrList = junErrList + Juniors[i].returnDebugString()+"\n";
+                        counter++;
+                    }
+                }
+                MessageBox.Show(counter.ToString() + " Junior Errors out of " + Juniors.Count() + "\n\n" + junErrList);
+
+                counter=0;
+                string senErrList = "";
+                for (int i = 0; i < Seniors.Count(); i++)
+                {
+                    if (Seniors[i].isErr())
+                    {
+                        senErrList = senErrList + Seniors[i].returnDebugString() + "\n";
+                        counter++;
+                    }
+                }
+                MessageBox.Show(counter.ToString() + " Senior Errors out of " + Seniors.Count() + "\n\n" + senErrList);
             }
         }
+        #endregion ClickActions
 
         bool Verify()
         {
@@ -162,287 +190,98 @@ namespace MCG
             Return true/false;
 
             */
-            char[] whitespace = new char[] { '\t' };
             List<string> splitJunLine;
-            List<string> splitSenLine;
+            bool isOK = false;
 
-            List<int> junOOPS=new List<int>();
-            List<int> senOOPS=new List<int>();
-
-            bool senErr = false;
-            bool junErr = false;
-
-            string last;
-            string first;
-            string mi;
-            string code;
-            string schoolcode;
-            string answers;
-
-
+            //Junior Files
+            #region JuniorPull
             int counter = 0;
             string line;
             System.IO.StreamReader junFile= new System.IO.StreamReader(juniorTest.Text);
             while((line=junFile.ReadLine())!=null)
             {
-                splitJunLine=killWhiteSpace(line);
-                //Tests the Key
-                if(splitJunLine[0]=="JUNIORTESTKEY")
+                if (counter==0)
                 {
-                    if(splitJunLine[2].Count()==40)
-                    {
-                        juniorKey=splitJunLine[2];
-                        for(int i=1;i<40;i++)
-                        {
-                            if(juniorKey[i]!='1'||juniorKey[i]!='2'||juniorKey[i]!='3'||juniorKey[i]!='4'||juniorKey[i]!='5'||juniorKey[i]!='*')
-                            {
-                                junOOPS.Add(0);
-                                break;
-                            }
-                        }
-                    }
+                    splitJunLine = killWhiteSpace(line);
+                    if (splitJunLine[2].Count() != 40) { jKEr = true; }
                     else
                     {
-                        junOOPS.Add(0);
-                    } 
+                        for(int i=0;i<splitJunLine[2].Count();i++)
+                        {
+                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5' && splitJunLine[2][i] != '*') { jKEr = true; }
+                        }
+                    }
+                    juniorKey = splitJunLine[2];
                 }
-
-                //Tests the TieBreaker
-                else if (splitJunLine[0] == "JUNIORTIEBREAKER")
+                else if(counter==1)
                 {
-                    if (splitJunLine[2].Count() == 40)
-                    {
-                        juniorTie = splitJunLine[2];
-                        for (int i = 1; i < 40; i++)
-                        {
-                            if (juniorTie[i] != '1' || juniorTie[i] != '2' || juniorTie[i] != '*')
-                            {
-                                junOOPS.Add(1);
-                                break;
-                            }
-                        }
-                    }
+                    splitJunLine = killWhiteSpace(line);
+                    if (splitJunLine[2].Count() != 40) { jTEr = true; }
                     else
                     {
-                        junOOPS.Add(1);
+                        for (int i = 0; i < splitJunLine[2].Count(); i++)
+                        {
+                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5' && splitJunLine[2][i] != '*') { jTEr = true; }
+                        }
                     }
+                    juniorTie = splitJunLine[2];
                 }
                 else
-                {
-                    //Tests the Student Stuff
-                    Juniors.Add(validJunior(splitJunLine));
-                    if (Juniors[Juniors.Count() - 1].returnAnswers() == "") { junOOPS.Add(counter); }
+                { 
+                    Juniors.Add(new Student("Junior", line));
+                    if (Juniors[Juniors.Count() - 1].isErr()) { isOK = false; }
                 }
-                counter++;
             }
+            junFile.Close();
+            #endregion JuniorPull
 
             //Senior Files
+            #region SeniorPull
             counter = 0;
             System.IO.StreamReader senFile= new System.IO.StreamReader(seniorTest.Text);
             while((line=senFile.ReadLine())!=null)
             {
-                splitSenLine = killWhiteSpace(line);
-                //Tests the Key
-                if(splitSenLine[0]=="SENIORTESTKEY")
+                if (counter == 0)
                 {
-                    if(splitSenLine[2].Length==40)
-                    {
-                        seniorKey=splitSenLine[2];
-                        for(int i=1;i<40;i++)
-                        {
-                            if(seniorKey[i]!='1'||seniorKey[i]!='2'||seniorKey[i]!='3'||seniorKey[i]!='4'||seniorKey[i]!='5'||seniorKey[i]!='*')
-                            {
-                                senOOPS.Add(0);
-                                break;
-                            }
-                        }
-                    }
+                    splitJunLine = killWhiteSpace(line);
+                    if (splitJunLine[2].Count() != 40) { sKEr = true; }
                     else
                     {
-                        senOOPS.Add(0);
-                    } 
-                }
-
-                //Tests the TieBreaker
-                else if (splitSenLine[0] == "SENIORTIEBREAKER")
-                {
-                    if (splitSenLine[2].Length == 40)
-                    {
-                        seniorTie = splitSenLine[2];
-                        for (int i = 1; i < 40; i++)
+                        for (int i = 0; i < splitJunLine[2].Count(); i++)
                         {
-                            if (seniorTie[i] != '1' || seniorTie[i] != '2' || seniorTie[i] != '*')
-                            {
-                                senOOPS.Add(1);
-                                break;
-                            }
+                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5' && splitJunLine[2][i] != '*') { sKEr = true; }
                         }
                     }
+                    seniorKey = splitJunLine[2];
+                }
+                else if (counter == 1)
+                {
+                    splitJunLine = killWhiteSpace(line);
+                    if (splitJunLine[2].Count() != 40) { sTEr = true; }
                     else
                     {
-                        MessageBox.Show(splitSenLine[0] + " " + splitSenLine[1] + " " + splitSenLine[2]);
-                        senOOPS.Add(1);
+                        for (int i = 0; i < splitJunLine[2].Count(); i++)
+                        {
+                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5' && splitJunLine[2][i] != '*') { sTEr = true; }
+                        }
                     }
+                    seniorTie = splitJunLine[2];
                 }
-                else
-                {
-                    //Tests the Student Stuff
-                    Seniors.Add(validSenior(splitSenLine));
-                    if (Seniors[Seniors.Count() - 1].returnAnswers() == "") { senOOPS.Add(counter); }
-                    counter++;
+                else 
+                { 
+                    Seniors.Add(new Student("Senior", line));
+                    if (Seniors[Seniors.Count() - 1].isErr()) { isOK = false; }
                 }
-
-
-
-
-
-
-                counter++;
             }
-            //Insert the Verify Code Here
-            //If Verified Good return true
-            //If Bad Data return false
+            senFile.Close();
+            #endregion SeniorPull
 
-            string dasJE = "";
-            string dasSE = "";
-
-            for (int i = 0; i < junOOPS.Count(); i++)
-            {
-                dasJE=dasJE+junOOPS[i].ToString()+"\n";
-                junErr=true;
-            }
-            for (int i = 0; i < senOOPS.Count(); i++)
-            {
-                dasSE=dasSE+senOOPS[i].ToString()+"\n";
-                senErr=true;
-            }
-
-            if (junErr) { MessageBox.Show("Error in Junior Test\n"+dasJE); }
-            if (senErr) { MessageBox.Show("Error in Senior Test\n"+dasSE); }
-
-
-
-
-
-
-
-
-            return !junErr&&!senErr;
+            return sKEr && sTEr && jKEr && jTEr && isOK;
         }
 
         void FormallyGrade()
         {
             //Insert the Grade Stuff Here
-        }
-
-        Student validJunior(List<string> splitJunLine)
-        {
-            string last="";
-            string first="";
-            string mi="";
-            string code="";
-            string schoolcode="";
-            string answers="";
-            Student it;
-            //Tests the Student Stuff
-            if (splitJunLine.Count() == 5)
-            {
-                last = splitJunLine[0];
-                first = splitJunLine[1];
-                mi = " ";
-                code = splitJunLine[2];
-                schoolcode = splitJunLine[3];
-                answers = splitJunLine[4];
-
-                if (last != "Student" && first != "Unknown" && schoolcode != "??????")
-                {
-                    it=new Student("Junior", last, first, mi, code, schoolcode, answers);
-                }
-                else
-                {
-                    it = new Student("ERROR", last, first, mi, code, schoolcode, answers);
-                }
-            }
-
-            else if (splitJunLine.Count() == 6)
-            {
-                last = splitJunLine[0];
-                first = splitJunLine[1];
-                mi = splitJunLine[2];
-                code = splitJunLine[3];
-                schoolcode = splitJunLine[4];
-                answers = splitJunLine[5];
-
-                if (last != "Student" && first != "Unknown" && schoolcode != "??????")
-                {
-                    it=new Student("Junior", last, first, mi, code, schoolcode, answers);
-                }
-                else
-                {
-                    it = new Student("ERROR", last, first, mi, code, schoolcode, answers);
-                }
-            }
-            else
-            {
-                it=new Student("ERROR", last, first, mi, code, schoolcode, answers);
-                MessageBox.Show(last + " " + first + " " + mi + " " + code + " " + schoolcode + " " + answers);
-            }
-            return it;
-        }
-
-        Student validSenior(List<string> splitJunLine)
-        {
-            string last = "";
-            string first = "";
-            string mi = "";
-            string code = "";
-            string schoolcode = "";
-            string answers = "";
-            Student it;
-            //Tests the Student Stuff
-            if (splitJunLine.Count() == 5)
-            {
-                last = splitJunLine[0];
-                first = splitJunLine[1];
-                mi = " ";
-                code = splitJunLine[2];
-                schoolcode = splitJunLine[3];
-                answers = splitJunLine[4];
-
-                if (last != "Student" && first != "Unknown" && schoolcode != "??????")
-                {
-                    it = new Student("Senior", last, first, mi, code, schoolcode, answers);
-                }
-                else
-                {
-                    it = new Student("ERROR", last, first, mi, code, schoolcode, answers);
-                }
-            }
-
-            else if (splitJunLine.Count() == 6)
-            {
-                last = splitJunLine[0];
-                first = splitJunLine[1];
-                mi = splitJunLine[2];
-                code = splitJunLine[3];
-                schoolcode = splitJunLine[4];
-                answers = splitJunLine[5];
-
-                if (last != "Student" && first != "Unknown" && schoolcode != "??????")
-                {
-                    it = new Student("Senior", last, first, mi, code, schoolcode, answers);
-                }
-                else
-                {
-                    it = new Student("ERROR", last, first, mi, code, schoolcode, answers);
-                }
-            }
-            else
-            {
-                it = new Student("ERROR", last, first, mi, code, schoolcode, answers);
-                MessageBox.Show("SENIOR LINE LENGTH ERROR:"+last + " " + first + " " + mi + " " + code + " " + schoolcode + " " + answers+" "+splitJunLine.Count().ToString());
-            }
-            return it;
         }
 
         List<string> killWhiteSpace(string it)

@@ -233,8 +233,11 @@ namespace MCG
                 else
                 { 
                     Juniors.Add(new Student("Junior", line));
+                    //MessageBox.Show(Juniors[Juniors.Count() - 1].returnDebugString());
                     if (Juniors[Juniors.Count() - 1].isErr()) { isOK = false; }
                 }
+                //MessageBox.Show(counter.ToString());
+                counter++;
             }
             junFile.Close();
             #endregion JuniorPull
@@ -277,6 +280,7 @@ namespace MCG
                     Seniors.Add(new Student("Senior", line));
                     if (Seniors[Seniors.Count() - 1].isErr()) { isOK = false; }
                 }
+                counter++;
             }
             senFile.Close();
 
@@ -284,7 +288,7 @@ namespace MCG
 
             MessageBox.Show(sKEr.ToString()+sTEr.ToString()+jKEr.ToString()+jTEr.ToString()+isOK.ToString());
 
-            return sKEr && sTEr && jKEr && jTEr && isOK;
+            return sKEr && sTEr && jKEr && jTEr && !isOK;
         }
 
         void FormallyGrade()

@@ -41,7 +41,9 @@ namespace MCG
         {
             InitializeComponent();
         }
+
         #region ClickActions
+
         private void juniorGet_Click(object sender, EventArgs e)
         {
             OpenFileDialog juniorTestOpen = new OpenFileDialog();
@@ -170,6 +172,7 @@ namespace MCG
                 MessageBox.Show(counter.ToString() + " Senior Errors out of " + Seniors.Count() + "\n\n" + senErrList);
             }
         }
+
         #endregion ClickActions
 
         bool Verify()
@@ -195,6 +198,7 @@ namespace MCG
 
             //Junior Files
             #region JuniorPull
+
             int counter = 0;
             string line;
             System.IO.StreamReader junFile= new System.IO.StreamReader(juniorTest.Text);
@@ -237,6 +241,7 @@ namespace MCG
 
             //Senior Files
             #region SeniorPull
+
             counter = 0;
             System.IO.StreamReader senFile= new System.IO.StreamReader(seniorTest.Text);
             while((line=senFile.ReadLine())!=null)
@@ -274,7 +279,10 @@ namespace MCG
                 }
             }
             senFile.Close();
+
             #endregion SeniorPull
+
+            MessageBox.Show(sKEr.ToString()+sTEr.ToString()+jKEr.ToString()+jTEr.ToString()+isOK.ToString());
 
             return sKEr && sTEr && jKEr && jTEr && isOK;
         }

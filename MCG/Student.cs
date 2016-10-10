@@ -15,6 +15,8 @@ namespace MCG
         //school is the string representation of their school
         //Answers are the students answers
         //score is their score with tiebreakers
+
+        #region DefineVariables
         string rawLine;
         List<string> splitList;
         bool err = false;
@@ -28,6 +30,9 @@ namespace MCG
         string school;
         string Answers;
         int score;
+        #endregion DefineVariables
+
+        #region Builds and Destroys
 
         //Constructor
         public Student(string classLevel, string line)
@@ -42,6 +47,10 @@ namespace MCG
         {
 
         }
+
+        #endregion Builds and Destroys
+
+        #region Validation
 
         public void validate()
         {
@@ -110,6 +119,8 @@ namespace MCG
             }
         }
 
+        #endregion Validation
+
         //Passes in the respective keys and finds the grade for that student
         public void gradeIt(string answerKey, string tieBreaker)
         {
@@ -125,14 +136,14 @@ namespace MCG
             }
         }
 
-        #region MinorDetails
         //Changes the school name string value
         public void updateSchoolName(string theName)
         {
             school = theName;
         }
 
-        #region ReturnThings
+        #region Return Calls
+
         //Returns if there is an error
         public bool isErr()
         {
@@ -183,6 +194,7 @@ namespace MCG
             return Answers;
         }
         
+        //Returns the validation string
         public string returnDebugString()
         {
             string it = "";
@@ -193,9 +205,10 @@ namespace MCG
 
             return it;
         }
-        #endregion ReturnThings
-        #endregion MinorDetails
 
+        #endregion Return Calls
+
+        //Parses the list removing all whitespace and leaving a list that is usable
         private List<string> killWhiteSpace(string it)
         {
             List<string> that = new List<string>();
@@ -218,6 +231,8 @@ namespace MCG
             that.Add(blanko);
             return that;
         }
+
+        #region Formatted Output
 
         public string RankString()
         {
@@ -245,5 +260,7 @@ namespace MCG
 
             return it;
         }
+        
+        #endregion Formatted Output
     }
 }

@@ -15,8 +15,8 @@ namespace MCG
         #region VariableDefanitions
         bool jun = false;
         bool sen = false;
-        bool sch = false;
-        bool head = false;
+        bool sch = true;//false;
+        bool head = true;//false;
 
         string date;
 
@@ -185,12 +185,11 @@ namespace MCG
             System.IO.StreamReader junFile= new System.IO.StreamReader(juniorTest.Text);
             while((line=junFile.ReadLine())!=null)
             {
-                splitJunLine=killWhiteSpace(line.Split(whitespace));
-                MessageBox.Show(splitJunLine[0]);
+                splitJunLine=killWhiteSpace(line);
                 //Tests the Key
                 if(splitJunLine[0]=="JUNIORTESTKEY")
                 {
-                    if(splitJunLine[2].Length==40)
+                    if(splitJunLine[2].Count()==40)
                     {
                         juniorKey=splitJunLine[2];
                         for(int i=1;i<40;i++)
@@ -211,7 +210,7 @@ namespace MCG
                 //Tests the TieBreaker
                 else if (splitJunLine[0] == "JUNIORTIEBREAKER")
                 {
-                    if (splitJunLine[2].Length == 40)
+                    if (splitJunLine[2].Count() == 40)
                     {
                         juniorTie = splitJunLine[2];
                         for (int i = 1; i < 40; i++)
@@ -242,12 +241,10 @@ namespace MCG
             System.IO.StreamReader senFile= new System.IO.StreamReader(seniorTest.Text);
             while((line=senFile.ReadLine())!=null)
             {
-                splitSenLine = killWhiteSpace(line.Split(whitespace));
+                splitSenLine = killWhiteSpace(line);
                 //Tests the Key
-                MessageBox.Show(splitSenLine[0] + " " + splitSenLine[1] + " " + splitSenLine[2]);
                 if(splitSenLine[0]=="SENIORTESTKEY")
                 {
-                    MessageBox.Show(splitSenLine[0] + " " + splitSenLine[1] + " " + splitSenLine[2]);
                     if(splitSenLine[2].Length==40)
                     {
                         seniorKey=splitSenLine[2];
@@ -269,10 +266,9 @@ namespace MCG
                 //Tests the TieBreaker
                 else if (splitSenLine[0] == "SENIORTIEBREAKER")
                 {
-                    MessageBox.Show(splitSenLine[0] + " " + splitSenLine[1] + " " + splitSenLine[2]);
                     if (splitSenLine[2].Length == 40)
                     {
-                        juniorTie = splitSenLine[2];
+                        seniorTie = splitSenLine[2];
                         for (int i = 1; i < 40; i++)
                         {
                             if (seniorTie[i] != '1' || seniorTie[i] != '2' || seniorTie[i] != '*')
@@ -389,6 +385,7 @@ namespace MCG
             else
             {
                 it=new Student("ERROR", last, first, mi, code, schoolcode, answers);
+                MessageBox.Show(last + " " + first + " " + mi + " " + code + " " + schoolcode + " " + answers);
             }
             return it;
         }
@@ -443,20 +440,31 @@ namespace MCG
             else
             {
                 it = new Student("ERROR", last, first, mi, code, schoolcode, answers);
+                MessageBox.Show("SENIOR LINE LENGTH ERROR:"+last + " " + first + " " + mi + " " + code + " " + schoolcode + " " + answers+" "+splitJunLine.Count().ToString());
             }
             return it;
         }
 
-        List<string> killWhiteSpace(string[] it)
+        List<string> killWhiteSpace(string it)
         {
             List<string> that = new List<string>();
-            for(int i=0;i<(it.Count()-1);i++)
+            string blanko = "";
+            for (int i = 0; i < it.Count();i++ )
             {
-                if(it[i]!=" ")
+                if(it[i]!=' '&&it[i]!='\t')
                 {
-                    that.Add(it[i]);
+                    blanko = blanko + it[i];
+                }
+                else
+                {
+                    if(blanko.Count()!=0)
+                    {
+                        that.Add(blanko);
+                        blanko = "";
+                    }
                 }
             }
+            that.Add(blanko);
             return that;
         }
     }

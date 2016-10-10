@@ -113,7 +113,16 @@ namespace MCG
         //Passes in the respective keys and finds the grade for that student
         public void gradeIt(string answerKey, string tieBreaker)
         {
-            
+            score = 0;
+            for(int i=0;i<40;i++)
+            {
+                if(Answers[i]==answerKey[i])
+                {
+                    score += 10000;
+                    if (tieBreaker[i] == '1') { score += 100; }
+                    else if (tieBreaker[i] == '2') { score += 1; }
+                }
+            }
         }
 
         #region MinorDetails
@@ -208,6 +217,33 @@ namespace MCG
             }
             that.Add(blanko);
             return that;
+        }
+
+        public string RankString()
+        {
+            string it = "";
+
+            it += returnScore() + "\t" + returnName() + "\t\t" + returnClass() + " " + returnLevel() + " " + returnSchool();
+
+            return it;
+        }
+
+        public string SchoolGroupString()
+        {
+            string it = "";
+
+            it += score.ToString() + "\t" + returnName();
+
+            return it;
+        }
+
+        public string generalRankingString()
+        {
+            string it = "";
+
+            it += score.ToString() + " " + returnName() + "\t\t" + returnClass() + " " + returnLevel() + " " + returnSchool() + "\t\t" + returnAnswers();
+
+            return it;
         }
     }
 }

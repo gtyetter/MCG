@@ -212,7 +212,7 @@ namespace MCG
                     {
                         for(int i=0;i<splitJunLine[2].Count();i++)
                         {
-                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5' && splitJunLine[2][i] != '*') { jKEr = true; }
+                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5') { jKEr = true; }
                         }
                     }
                     juniorKey = splitJunLine[2];
@@ -225,7 +225,7 @@ namespace MCG
                     {
                         for (int i = 0; i < splitJunLine[2].Count(); i++)
                         {
-                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5' && splitJunLine[2][i] != '*') { jTEr = true; }
+                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '*') { jTEr = true; }
                         }
                     }
                     juniorTie = splitJunLine[2];
@@ -257,7 +257,7 @@ namespace MCG
                     {
                         for (int i = 0; i < splitJunLine[2].Count(); i++)
                         {
-                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5' && splitJunLine[2][i] != '*') { sKEr = true; }
+                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5') { sKEr = true; }
                         }
                     }
                     seniorKey = splitJunLine[2];
@@ -270,7 +270,7 @@ namespace MCG
                     {
                         for (int i = 0; i < splitJunLine[2].Count(); i++)
                         {
-                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '3' && splitJunLine[2][i] != '4' && splitJunLine[2][i] != '5' && splitJunLine[2][i] != '*') { sTEr = true; }
+                            if (splitJunLine[2][i] != '1' && splitJunLine[2][i] != '2' && splitJunLine[2][i] != '*') { sTEr = true; }
                         }
                     }
                     seniorTie = splitJunLine[2];
@@ -288,7 +288,7 @@ namespace MCG
 
             MessageBox.Show(sKEr.ToString()+sTEr.ToString()+jKEr.ToString()+jTEr.ToString()+isOK.ToString());
 
-            return sKEr && sTEr && jKEr && jTEr && !isOK;
+            return !(!sKEr && !sTEr && !jKEr && !jTEr && isOK);
         }
 
         void FormallyGrade()

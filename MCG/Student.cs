@@ -81,24 +81,47 @@ namespace MCG
                 Answers = splitList[4];
                 superEval();
             }
-            else if(splitList.Count()==6)
+            else if(splitList.Count()>=6)
             {
                 LastName = splitList[0];
                 FirstName = splitList[1];
-                MiddleInitial = splitList[2];
-                if (splitList[3] == "41") { level = "AA"; }
-                else if (splitList[3] == "49") { level = " A"; }
+                int i = 0;
+                while(splitList[2+i].Count()>1)
+                {
+                    i++;
+                    FirstName += " " + splitList[1 + i];
+                }
+                MiddleInitial = splitList[2+i];
+                if (splitList[3+i] == "41"||splitList[3+i]=="51") { level = "AA"; }
+                else if (splitList[3+i] == "49"||splitList[3+i]=="59") { level = " A"; }
                 else
                 {
                     level = "UK";
                     err = true;
                 }
-                schoolCode = splitList[4];
-                Answers = splitList[5];
+                schoolCode = splitList[4+i];
+                Answers = splitList[5+i];
                 superEval();
             }
             else
             {
+                int countr = 0;
+                while(splitList[countr].Count()!=2&&splitList[countr+1].Count()!=6&&splitList[countr+2].Count()!=40)
+                {
+                    countr++;
+                }
+                LastName = "Student";
+                FirstName = "Unknown";
+                MiddleInitial = " ";
+                if (splitList[countr] == "41" || splitList[countr] == "51") { level = "AA"; }
+                else if (splitList[countr] == "49" || splitList[countr] == "59") { level = " A"; }
+                else
+                {
+                    level = "UK";
+                }
+                schoolCode = splitList[countr + 1];
+                Answers = splitList[countr + 2];
+                superEval();
                 err = true;
             }
         }

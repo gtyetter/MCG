@@ -140,36 +140,18 @@ namespace MCG
         {
             date = Month.Text + " " + Dayz.Text + ", " + Yearz.Text;
             MessageBox.Show(date);
-            if(Verify())
+            if (Verify())
             {
+
+                printVerifyFile(Juniors);
+                printVerifyFile(Seniors);
                 FormallyGrade();
                 MessageBox.Show("Got True from Verify\nFormally Graded");
             }
             else
             {
-                int counter = 0;
-                string junErrList="";
-                for(int i=0;i<Juniors.Count();i++)
-                {
-                    if (Juniors[i].isErr())
-                    {
-                        junErrList = junErrList + Juniors[i].returnDebugString()+"\n";
-                        counter++;
-                    }
-                }
-                MessageBox.Show(counter.ToString() + " Junior Errors out of " + Juniors.Count() + "\n\n" + junErrList);
-
-                counter=0;
-                string senErrList = "";
-                for (int i = 0; i < Seniors.Count(); i++)
-                {
-                    if (Seniors[i].isErr())
-                    {
-                        senErrList = senErrList + Seniors[i].returnDebugString() + "\n";
-                        counter++;
-                    }
-                }
-                MessageBox.Show(counter.ToString() + " Senior Errors out of " + Seniors.Count() + "\n\n" + senErrList);
+                printVerifyFile(Juniors);
+                printVerifyFile(Seniors);
             }
         }
 
@@ -232,7 +214,7 @@ namespace MCG
                 }
                 else
                 { 
-                    Juniors.Add(new Student("Junior", line));
+                    Juniors.Add(new Student("Junior",line));
                     //MessageBox.Show(Juniors[Juniors.Count() - 1].returnDebugString());
                     if (Juniors[Juniors.Count() - 1].isErr()) { isOK = false; }
                 }
@@ -277,7 +259,7 @@ namespace MCG
                 }
                 else 
                 { 
-                    Seniors.Add(new Student("Senior", line));
+                    Seniors.Add(new Student("Senior",line));
                     if (Seniors[Seniors.Count() - 1].isErr()) { isOK = false; }
                 }
                 counter++;
@@ -293,7 +275,14 @@ namespace MCG
 
         void FormallyGrade()
         {
-            //Insert the Grade Stuff Here
+            for(int i=0;i<Juniors.Count();i++)
+            {
+                Juniors[i].gradeIt(juniorKey,juniorTie);
+            }
+            for(int i=0;i<Seniors.Count();i++)
+            {
+                Seniors[i].gradeIt(seniorKey, seniorTie);
+            }
         }
 
         List<string> killWhiteSpace(string it)
@@ -317,6 +306,21 @@ namespace MCG
             }
             that.Add(blanko);
             return that;
+        }
+
+        void printVerifyFile(List<Student> them)
+        {
+            int counter = 0;
+            string junErrList = "";
+            for (int i = 0; i < them.Count(); i++)
+            {
+                if (them[i].isErr())
+                {
+                    junErrList = junErrList + them[i].returnDebugString() + "\n";
+                    counter++;
+                }
+            }
+            MessageBox.Show(counter.ToString() + " Junior Errors out of " + them.Count() + "\n\n" + junErrList);
         }
     }
 }

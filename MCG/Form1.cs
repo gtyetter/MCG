@@ -351,9 +351,9 @@ namespace MCG
             Student that;
             for(int i=0;i<it.Count();i++)
             {
-                for(int j=0;j<it.Count()-i;j++)
+                for(int j=0;j<it.Count()-i-1;j++)
                 {
-                    if(it[j].returnScore()>it[j+1].returnScore())
+                    if(it[j].returnScore()<it[j+1].returnScore())
                     {
                         that = it[j];
                         it[j] = it[j + 1];
@@ -368,17 +368,19 @@ namespace MCG
         {
             System.IO.StreamWriter jfile=new System.IO.StreamWriter("C:\\Users\\Patrick\\Desktop\\test data\\jfile.txt");
             string jline = "ANNUAL NORTHERN MINNESOTA MATHEMATICS CONTEST\n" + date + "\n\nDepartment of Mathematics and Computer Science\nBemidji State University\n\nJunior Dividion\n\nINDIVIDUAL RESULTS (INCLUDING TIEBREAKERS)\n\nRank  Score";
+            jfile.WriteLine(jline + "\n");
             for(int i=0;i<SortJuniors.Count();i++)
             {
-                jfile.WriteLine(i.ToString() + ".  " + SortJuniors[i].RankString());
+                jfile.WriteLine((i+1).ToString() + ".  " + SortJuniors[i].RankString());
             }
             jfile.Close();
 
             System.IO.StreamWriter sfile = new System.IO.StreamWriter("C:\\Users\\Patrick\\Desktop\\test data\\sfile.txt");
             string sline = "ANNUAL NORTHERN MINNESOTA MATHEMATICS CONTEST\n" + date + "\n\nDepartment of Mathematics and Computer Science\nBemidji State University\n\nSenior Dividion\n\nINDIVIDUAL RESULTS (INCLUDING TIEBREAKERS)\n\nRank  Score";
+            sfile.WriteLine(sline + "\n");
             for (int i = 0; i < SortSeniors.Count(); i++)
             {
-                sfile.WriteLine(i.ToString() + ".  " + SortSeniors[i].RankString());
+                sfile.WriteLine((i+1).ToString() + ".  " + SortSeniors[i].RankString());
             }
             sfile.Close();
         }

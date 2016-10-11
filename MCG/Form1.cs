@@ -25,6 +25,11 @@ namespace MCG
         //Vector for Seniors
         List<Student> Seniors = new List<Student>();
 
+        //Sorted List for Juniors
+        List<Student> SortJuniors = new List<Student>();
+        //Sorted List for Seniors
+        List<Student> SortSeniors = new List<Student>();
+
         string juniorKey;
         string juniorTie;
         string seniorKey;
@@ -153,6 +158,10 @@ namespace MCG
                 printVerifyFile(Juniors);
                 printVerifyFile(Seniors);
             }
+
+            SortIt();
+            outputFiles();
+            MessageBox.Show("Ding!");
         }
 
         #endregion ClickActions
@@ -321,6 +330,57 @@ namespace MCG
                 }
             }
             MessageBox.Show(counter.ToString() + " Junior Errors out of " + them.Count() + "\n\n" + junErrList);
+        }
+
+        void SortIt()
+        {
+            for (int i = 0; i < Juniors.Count(); i++)
+            {
+                SortJuniors.Add(Juniors[i]);
+            }
+            for (int i = 0; i < Seniors.Count(); i++)
+            {
+                SortSeniors.Add(Seniors[i]);
+            }
+            SortJuniors=BubbleSort(SortJuniors);
+            SortSeniors=BubbleSort(SortSeniors);
+        }
+
+        List<Student> BubbleSort(List<Student> it)
+        {
+            Student that;
+            for(int i=0;i<it.Count();i++)
+            {
+                for(int j=0;j<it.Count()-i;j++)
+                {
+                    if(it[j].returnScore()>it[j+1].returnScore())
+                    {
+                        that = it[j];
+                        it[j] = it[j + 1];
+                        it[j + 1] = that;
+                    }
+                }
+            }
+            return it;
+        }
+
+        void outputFiles()
+        {
+            System.IO.StreamWriter jfile=new System.IO.StreamWriter("C:\\Users\\Patrick\\Desktop\\test data\\jfile.txt");
+            string jline = "ANNUAL NORTHERN MINNESOTA MATHEMATICS CONTEST\n" + date + "\n\nDepartment of Mathematics and Computer Science\nBemidji State University\n\nJunior Dividion\n\nINDIVIDUAL RESULTS (INCLUDING TIEBREAKERS)\n\nRank  Score";
+            for(int i=0;i<SortJuniors.Count();i++)
+            {
+                jfile.WriteLine(i.ToString() + ".  " + SortJuniors[i].RankString());
+            }
+            jfile.Close();
+
+            System.IO.StreamWriter sfile = new System.IO.StreamWriter("C:\\Users\\Patrick\\Desktop\\test data\\sfile.txt");
+            string sline = "ANNUAL NORTHERN MINNESOTA MATHEMATICS CONTEST\n" + date + "\n\nDepartment of Mathematics and Computer Science\nBemidji State University\n\nSenior Dividion\n\nINDIVIDUAL RESULTS (INCLUDING TIEBREAKERS)\n\nRank  Score";
+            for (int i = 0; i < SortSeniors.Count(); i++)
+            {
+                sfile.WriteLine(i.ToString() + ".  " + SortSeniors[i].RankString());
+            }
+            sfile.Close();
         }
     }
 }

@@ -144,14 +144,14 @@ namespace MCG
         private void go_Click(object sender, EventArgs e)
         {
             date = Month.Text + " " + Dayz.Text + ", " + Yearz.Text;
-            MessageBox.Show(date);
+            //MessageBox.Show(date);
             if (Verify())
             {
 
                 printVerifyFile(Juniors);
                 printVerifyFile(Seniors);
                 FormallyGrade();
-                MessageBox.Show("Got True from Verify\nFormally Graded");
+                //MessageBox.Show("Got True from Verify\nFormally Graded");
             }
             else
             {
@@ -161,7 +161,7 @@ namespace MCG
 
             SortIt();
             outputFiles();
-            MessageBox.Show("Ding!");
+            MessageBox.Show("Grading is Complete\nPlease Check Files...");
         }
 
         #endregion ClickActions
@@ -277,7 +277,7 @@ namespace MCG
 
             #endregion SeniorPull
 
-            MessageBox.Show(sKEr.ToString()+sTEr.ToString()+jKEr.ToString()+jTEr.ToString()+isOK.ToString());
+            //MessageBox.Show(sKEr.ToString()+sTEr.ToString()+jKEr.ToString()+jTEr.ToString()+isOK.ToString());
 
             return !(!sKEr && !sTEr && !jKEr && !jTEr && isOK);
         }
@@ -329,7 +329,7 @@ namespace MCG
                     counter++;
                 }
             }
-            MessageBox.Show(counter.ToString() + " Junior Errors out of " + them.Count() + "\n\n" + junErrList);
+            //MessageBox.Show(counter.ToString() + " Junior Errors out of " + them.Count() + "\n\n" + junErrList);
         }
 
         void SortIt()
